@@ -10,3 +10,8 @@
 body {
   padding-top: 70px;
 }
+
+.invisible_list {
+  -webkit-padding-start: 0;
+  list-style-type: none;
+}
