@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <table class="table table-bordered">
+    <h1>You purchased:</h1>
+      <tbody>
+        <% @order_total = 0 %>
+          <% my_order = LineItem.where( order_id: @order[:id] )%>
+          <% my_order.each do |item| %>
+            <% my_product = Product.find( item.product_id ) %>
+            <%= render 'receipt', product_id: item.product_id, details: item %>
+          <% end %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th colspan="4">
+            TOTAL:
+          </th>
+          <th>
+            <%= @order_total %>
+          </th>
+        </tr>
+      </tfoot>
+  </body>
+</html>

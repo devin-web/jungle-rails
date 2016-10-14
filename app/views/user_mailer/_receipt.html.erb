@@ -1,0 +1,9 @@
+<% quantity = details['quantity'].to_i %>
+
+<% if product = Product.find_by(id: product_id) %>
+  <% item_total = product.price * quantity %>
+  <% @order_total += item_total %>
+
+      You bought <%= quantity %> <%= product.name %> for <%= product.price %> each for a total cost of<%= " " + (quantity * product.price).to_s + " " %> :<p><%= product.description %> </p>
+
+<% end %>

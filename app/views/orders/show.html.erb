@@ -25,6 +25,7 @@
           <% my_product = Product.find( item.product_id ) %>
           <%= render 'order', product_id: item.product_id, details: item %>
         <% end %>
+        <% UserMailer.receipt_email(@order).deliver_later %>
       </tbody>
       <tfoot>
         <tr>
