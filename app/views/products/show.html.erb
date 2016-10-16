@@ -27,5 +27,57 @@
     </div>
 
   </article>
+    <% if current_user != nil %>
+      <%= form_for [@product, @review] do |f| %>
+        <%= f.label :rating %>
+        <%= f.select(:rating, [5, 4, 3, 2, 1], class: 'form-control') %>
 
+        <br>
+
+        <%= f.label :description %>:
+        <%= f.text_area :description, class: "form-control" %>
+
+        <%= f.submit %>
+      <% end %>
+    <% end %>
+    <div>
+
+      <% total_review_count = 0.0 %>
+      <% reviews_accum = 0.0 %>
+      <% reviews = Review.where( product_id: @product.id ) %>
+
+      <% reviews.order('created_at desc').each do |review| %>
+        <% reviews_accum += review.rating %>
+        <% total_review_count += 1 %>
+      <% end %>
+      <% if total_review_count > 0 %>
+        <strong>
+          &nbsp&nbsp&nbsp&nbsp&nbspAverage Rating: <%= reviews_accum / total_review_count %> / 5
+        </strong>
+      <% end %>
+    </div>
+    <div>
+      <% if total_review_count > 0 %>
+        <% reviews = Review.where( product_id: @product.id ) %>
+        <div class="reviews">
+        <% reviews.order('created_at desc').each do |review| %>
+          <strong>Rating:</strong> <%= review.rating %> / 5
+          <br>
+          <% user = User.where( id: review.user_id ) %>
+          <div>
+            <% if user[0].id == current_user.id %>
+              <%= link_to fa_icon('trash'), [@product, review], class: 'btn btn-sm btn-danger', method: :delete, data: { confirm: "Are you sure?" } %>
+            <% end %>
+
+            <strong><%= user[0].first_name %> <%= user[0].last_name %></strong> (<%= user[0].email %>)
+
+            <p>
+              <strong>Comment:</strong> <%= review.description %>
+            </p>
+          </div>
+        <% end %>
+      <% end %>
+      </div>
+
+    </div>
 </section>
