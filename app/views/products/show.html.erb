@@ -65,7 +65,7 @@
           <br>
           <% user = User.where( id: review.user_id ) %>
           <div>
-            <% if user[0].id == current_user.id %>
+            <% if current_user && user[0].id == current_user.id %>
               <%= link_to fa_icon('trash'), [@product, review], class: 'btn btn-sm btn-danger', method: :delete, data: { confirm: "Are you sure?" } %>
             <% end %>
 
